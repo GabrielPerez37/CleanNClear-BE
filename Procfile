@@ -1,1 +1,1 @@
--w 3 app:app
+gunicorn = gunicorn -w 3 app:app
