@@ -6,8 +6,6 @@ from Controller.clients import BaseClients
 from Controller.vehicles import BaseVehicles
 from Controller.tickets import BaseTickets
 
-# from Controller.visits import BaseVisits
-# from Controller.revenue import BaseRevenue
 
 app = Flask(__name__)
 CORS(app)
