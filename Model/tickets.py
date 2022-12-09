@@ -11,7 +11,7 @@ class TicketsDAO:
 
     def get_all_tickets(self):
         cursor = self.conn.cursor()
-        query = "select tid, username, useremail, userpassword, firstname, lastname from users;"
+        query = "select tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date from tickets;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -20,21 +20,21 @@ class TicketsDAO:
 
     def get_ticket_by_id(self, tid):
         cursor = self.conn.cursor()
-        query = "select tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost " \
+        query = "select tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date " \
                 "from tickets " \
                 "where tid = %s;"
         cursor.execute(query, (tid,))
         result = cursor.fetchone()
         return result
 
-    def update_ticket(self, tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost):
-        cursor = self.conn.cursor()
-        query = "update tickets " \
-                "set vid = %s, model = %s, brand = %s, firstname = %s, lastname = %s, company = %s, material = %s, measurementtype = %s, measurement = %s, cost = %s" \
-                "where uid = %s;"
-        cursor.execute(query, (vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost, tid))
-        self.conn.commit()
-        return True
+    # def update_user(self, tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date):
+    #     cursor = self.conn.cursor()
+    #     query = "update tickets " \
+    #             "set vid = %s, model = %s, brand = %s, firstname = %s, lastname = %s, company = %s, material = %s, measurementtype = %s, measurement = %s, price = %s" \
+    #             "where tid = %s;"
+    #     cursor.execute(query, (vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date, tid))
+    #     self.conn.commit()
+    #     return True
 
     def delete_ticket(self, tid):
         cursor = self.conn.cursor()
@@ -47,11 +47,11 @@ class TicketsDAO:
         # otherwise, it was deleted, so check if affected_rows != 0
         return affected_rows != 0
 
-    def insert_ticket(self, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost):
+    def insert_ticket(self, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date):
         cursor = self.conn.cursor()
-        query = "insert into tickets (vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost) " \
-                "values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning tid;"
-        cursor.execute(query, (vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost,))
+        query = "insert into tickets (vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date) " \
+                "values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) returning tid;"
+        cursor.execute(query, (vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date,))
         result = cursor.fetchone()[0]
         self.conn.commit()
         return result

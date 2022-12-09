@@ -15,10 +15,11 @@ class BaseTickets:
         result['material'] = row[7]
         result['measurementtype'] = row[8]
         result['measurement'] = row[9]
-        result['cost'] = row[10]
+        result['price'] = row[10]
+        result['date'] = row[11]
         return result
 
-    def build_attr_dict(self, tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost):
+    def build_attr_dict(self, tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date):
         result = {}
         result['tid'] = tid
         result['vid'] = vid
@@ -30,7 +31,8 @@ class BaseTickets:
         result['material'] = material
         result['measurementtype'] = measurementtype
         result['measurement'] = measurement
-        result['cost'] = cost
+        result['price'] = price
+        result['date'] = date
         return result
 
     def get_all_tickets(self):
@@ -61,10 +63,11 @@ class BaseTickets:
         material = json['material']
         measurementtype = json['measurementtype']
         measurement = json['measurement']
-        cost = json['cost']
+        price = json['price']
+        date = json['date']
         dao = TicketsDAO()
-        updated_ticket = dao.update_ticket(tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost)
-        result = self.build_attr_dict(tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost)
+        # updated_ticket = dao.update_ticket(tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date)
+        result = self.build_attr_dict(tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date)
         return jsonify(result), 200
 
     def delete_ticket(self, tid):
@@ -85,8 +88,9 @@ class BaseTickets:
         material = json['material']
         measurementtype = json['measurementtype']
         measurement = json['measurement']
-        cost = json['cost']
+        price = json['price']
+        date = json['date']
         dao = TicketsDAO()
-        tid = dao.insert_ticket(vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost)
-        result = self.build_attr_dict(tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, cost)
+        tid = dao.insert_ticket(vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date)
+        result = self.build_attr_dict(tid, vid, model, brand, firstname, lastname, company, material, measurementtype, measurement, price, date)
         return jsonify(result), 201
